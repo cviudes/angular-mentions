@@ -207,6 +207,9 @@ export class MentionDirective implements OnChanges {
 
     let config = this.triggerChars[charPressed];
     if (config) {
+      if (pos>0 && val.charAt(pos-1)!=' '){
+        return
+      }
       this.activeConfig = config;
       this.startPos = event.inputEvent ? pos - 1 : pos;
       this.startNode = (this.iframe ? this.iframe.contentWindow.getSelection() : window.getSelection()).anchorNode;
@@ -303,7 +306,7 @@ export class MentionDirective implements OnChanges {
           if (this.activeConfig.returnTrigger) {
             const triggerChar = (this.searchString || event.keyCode === KEY_BACKSPACE) ? val.substring(this.startPos, this.startPos + 1) : '';
             this.searchTerm.emit(triggerChar + this.searchString);
-          } 
+          }
           else {
             this.searchTerm.emit(this.searchString);
           }
